@@ -1,7 +1,5 @@
 #include "Kaleidoscope-LayerLight.h"
-#include "LEDUtils.h"
-#include "Kaleidoscope.h"
-#include "layers.h"
+#include "Kaleidoscope-LEDControl.h"
 
 const struct LayerSpec * LayerLight_::specs;
 uint8_t LayerLight_::specLength;
@@ -30,7 +28,7 @@ void LayerLight_::dump_state() {
 kaleidoscope::EventHandlerResult LayerLight_::afterEachCycle() {
   uint8_t activeLayers = 0;
   for (uint8_t specIndex = 0; specIndex < specLength; specIndex ++) {
-    if (Layer.isOn(specs[specIndex].layer)) {
+    if (Layer.isActive(specs[specIndex].layer)) {
       activeLayers++;
     }
   }
@@ -62,7 +60,7 @@ void LayerLight_::updateKeys() {
       bool override_opt = false;
       cRGB override_color;
       for (uint8_t i = 0; i < specLength; i++) {
-        if (!Layer.isOn(specs[i].layer)) continue;
+        if (!Layer.isActive(specs[i].layer)) continue;
         Key layer_key = Layer.getKey(specs[i].layer, r, c);
 
         if (k == LockLayer(specs[i].layer)) {
@@ -84,19 +82,5 @@ void LayerLight_::updateKeys() {
     }
   }
 }
-
-// Legacy V1 API
-#if KALEIDOSCOPE_ENABLE_V1_PLUGIN_API
-void LayerLight_::begin() {
-  onSetup();
-  Kaleidoscope.useLoopHook(legacyLoopHook);
-}
-
-void LayerLight_::legacyLoopHook(bool is_post_clear) {
-  if (!is_post_clear)
-    return;
-  LayerLight.afterEachCycle();
-}
-#endif
 
 LayerLight_ LayerLight;
