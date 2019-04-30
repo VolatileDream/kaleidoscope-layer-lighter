@@ -31,7 +31,7 @@ KEYMAPS(
 
 const struct LayerSpec specs [] =
     {
-      // this is almost equivalent to the NumPad setup, but LightLayer doesn't change
+      // this is almost equivalent to the NumPad setup, but LayerLight doesn't change
       // the value of the NumLock for users.
       { layer: LAYER_NUMPAD, color: CRGB(160,0,0) },
       { layer: LAYER_GAMING, color: CRGB(0,160,0) }
@@ -39,7 +39,7 @@ const struct LayerSpec specs [] =
 
 KALEIDOSCOPE_INIT_PLUGINS(
   ...
-  LightLayer,
+  LayerLight,
   ...
 );
 
@@ -48,7 +48,7 @@ setup() {
  ...
 
  // Match the name of the 'struct LayerSpec' declared above.
- LightLayer.specs = specs;
+ LayerLight.specs = specs;
  // Special C++ madness to get the array length of 'specs'
  // this will only work when specs is declared in the same file.
  LayerLight.specLength = sizeof(specs) / sizeof(struct LayerSpec);
