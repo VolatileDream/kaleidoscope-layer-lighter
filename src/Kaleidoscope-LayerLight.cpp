@@ -25,7 +25,7 @@ void LayerLight_::dump_state() {
   }
 }
 
-kaleidoscope::EventHandlerResult LayerLight_::afterEachCycle() {
+kaleidoscope::EventHandlerResult LayerLight_::onLayerChange() {
   uint8_t activeLayers = 0;
   for (uint8_t specIndex = 0; specIndex < specLength; specIndex ++) {
     if (Layer.isActive(specs[specIndex].layer)) {

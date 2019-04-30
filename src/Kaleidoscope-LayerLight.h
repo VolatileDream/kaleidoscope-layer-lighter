@@ -15,7 +15,7 @@ class LayerLight_ : public kaleidoscope::Plugin {
   static const struct LayerSpec * specs;
 
   kaleidoscope::EventHandlerResult onSetup(void);
-  kaleidoscope::EventHandlerResult afterEachCycle();
+  kaleidoscope::EventHandlerResult onLayerChange();
   void dump_state();
 
  private:
