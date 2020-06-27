@@ -1,5 +1,7 @@
+#include "Kaleidoscope.h"
 #include "Kaleidoscope-LayerLight.h"
 #include "Kaleidoscope-LEDControl.h"
+#include "kaleidoscope/layers.h"
 
 const struct LayerSpec * LayerLight_::specs;
 uint8_t LayerLight_::specLength;
@@ -53,15 +55,16 @@ void LayerLight_::updateKeys() {
   // Can only loop through the keys once. otherwise we run into problems with
   // displaying when multiple layers are active.
   cRGB color = breath_compute();
-  for (uint8_t r = 0; r < ROWS; r++) {
-    for (uint8_t c = 0; c < COLS; c++) {
-      Key k = Layer.lookupOnActiveLayer(r, c);
+  for (uint8_t r = 0; r < Kaleidoscope.device().matrix_rows; r++) {
+    for (uint8_t c = 0; c < Kaleidoscope.device().matrix_columns; c++) {
+      KeyAddr addr = KeyAddr(r, c);
+      Key k = Layer.lookupOnActiveLayer(addr);
 
       bool override_opt = false;
       cRGB override_color;
       for (uint8_t i = 0; i < specLength; i++) {
         if (!Layer.isActive(specs[i].layer)) continue;
-        Key layer_key = Layer.getKey(specs[i].layer, r, c);
+        Key layer_key = Layer.getKey(specs[i].layer, addr);
 
         if (k == LockLayer(specs[i].layer)) {
           override_opt = true;
