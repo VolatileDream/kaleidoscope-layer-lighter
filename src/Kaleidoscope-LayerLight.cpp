@@ -1,7 +1,6 @@
 #include "Kaleidoscope.h"
 #include "Kaleidoscope-LayerLight.h"
 #include "Kaleidoscope-LEDControl.h"
-#include "kaleidoscope/layers.h"
 
 const struct LayerSpec * LayerLight_::specs;
 uint8_t LayerLight_::specLength;
