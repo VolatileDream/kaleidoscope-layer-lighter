@@ -16,6 +16,7 @@ class LayerLight_ : public kaleidoscope::Plugin {
 
   kaleidoscope::EventHandlerResult onSetup(void);
   kaleidoscope::EventHandlerResult onLayerChange();
+  kaleidoscope::EventHandlerResult afterEachCycle();
   void dump_state();
 
  private:

@@ -50,6 +50,25 @@ kaleidoscope::EventHandlerResult LayerLight_::onLayerChange() {
   return kaleidoscope::EventHandlerResult::OK;
 }
 
+kaleidoscope::EventHandlerResult LayerLight_::afterEachCycle() {
+  constexpr uint8_t lock_bits = (KEY_FLAGS | SYNTHETIC | SWITCH_TO_KEYMAP);
+  if (!init) {
+    return kaleidoscope::EventHandlerResult::OK;
+  }
+
+  cRGB color = breath_compute();
+  for (uint8_t r = 0; r < Kaleidoscope.device().matrix_rows; r++) {
+    for (uint8_t c = 0; c < Kaleidoscope.device().matrix_columns; c++) {
+      KeyAddr addr = KeyAddr(r, c);
+      Key k = Layer.lookupOnActiveLayer(addr);
+      if (k.getFlags() == lock_bits && Layer.isActive(k.getKeyCode())) {
+        LEDControl.setCrgbAt(addr, color);
+      }
+    }
+  }
+  return kaleidoscope::EventHandlerResult::OK;
+}
+
 void LayerLight_::updateKeys() {
   // Can only loop through the keys once. otherwise we run into problems with
   // displaying when multiple layers are active.
